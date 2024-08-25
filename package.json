@@ -1,0 +1,31 @@
+{
+  "name": "citext",
+  "version": "1.0.0",
+  "source": "index.js",
+  "lib": "dist/index.js",
+  "type": "module",
+  "targets": {
+    "lib": {
+      "includeNodeModules": true,
+      "outputFormat": "global"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "rollup-plugin-license": "^3.5.2",
+    "vite": "^5.4.2",
+    "vite-plugin-singlefile": "^2.0.2"
+  },
+  "dependencies": {
+    "@citation-js/core": "^0.7.14",
+    "@citation-js/plugin-bibtex": "^0.7.14",
+    "@citation-js/plugin-csl": "^0.7.14"
+  }
+}
