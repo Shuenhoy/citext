@@ -1,4 +1,5 @@
 #import "@preview/jogs:0.2.3": compile-js, call-js-function, list-global-property
+#import "@preview/mitex:0.2.4": mi
 
 
 #let cite-src = read("./dist/index.iife.js")
@@ -9,11 +10,14 @@
 #let locales-zh-CN = read("locales-zh-CN.xml")
 
 #let init_citation(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN) = {
-  return call-js-function(cite-bytecode, "citext", bib, csl, locales)
+  return call-js-function(cite-bytecode, "citext", bib.replace("$", "\\$"), csl, locales)
 }
 
 
-#let extcitefull(bib, id) = bib.at(id).at("bibliography")
+#let extcitefull(bib, id) = {
+  show regex("\$.+?\$"): it => mi(it)
+  bib.at(id).at("bibliography")
+}
 #let citeauthor-one-two-more(authors, ETAL: none, AND: none) = {
   let len = authors.len()
   if len > 2 {
@@ -82,6 +86,10 @@
     show super: it => it.body
     [#extciteauthor(bib, str(it.target)) #cite(it.target)]
   }
+
+  show ref.where(label: <citef>): it => {
+    [#footnote[#extcitefull(bib, str(it.target))]]
+  }
   s
 }
 
@@ -102,7 +110,5 @@
           })
         .flatten()
     )
-
-
   })
 }

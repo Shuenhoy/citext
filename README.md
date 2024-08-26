@@ -8,7 +8,7 @@ This package provides:
 
 It calls `citation.js` from QuickJS and WebAssembly using https://github.com/Enter-tainer/jogs.
 
-It is designed for `gb-t-7714-2015-numeric-bilingual.csl` but may work for other CSL styles.
+It is designed for `gb-t-7714-2015-numeric-bilingual.csl` but may work for other CSL styles with `numeric` category.
 
 ```typst
 #import "package/lib.typ": *
@@ -27,7 +27,7 @@ It is designed for `gb-t-7714-2015-numeric-bilingual.csl` but may work for other
 
 @lesk:1977<citet>
 
-@latex:companion<citep>
+@latex:companion<citef>
 
 // #show bibliography: none
 
