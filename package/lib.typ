@@ -40,7 +40,7 @@
   ),
 ) = {
   let entry = bib.at(id)
-  mapping.at(entry.at("language"))(entry.at("author"))
+  mapping.at(entry.at("language"), default: mapping.en-US)(entry.at("author"))
 
 }
 
