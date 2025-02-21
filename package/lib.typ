@@ -41,7 +41,6 @@
 ) = {
   let entry = bib.at(id)
   mapping.at(entry.at("language"), default: mapping.en-US)(entry.at("author"))
-
 }
 
 #let cite-targets = state("cite-targets", ())
@@ -96,19 +95,20 @@
 
 
 #let extbib(bib) = {
-  locate(loc => {
-    grid(columns: 2,
+  context {
+    grid(
+      columns: 2,
       column-gutter: 0.65em,
       row-gutter: 1.2em,
       ..cite-targets
-        .at(loc)
+        .at(here())
         .enumerate()
         .map(x => {
-            let i = x.at(0) + 1
-            let target = x.at(1)
-            ([\[#i\]], extcitefull(bib, str(target)))
-          })
+          let i = x.at(0) + 1
+          let target = x.at(1)
+          ([\[#i\]], extcitefull(bib, str(target)))
+        })
         .flatten()
     )
-  })
+  }
 }
