@@ -8,6 +8,17 @@
 #let gb-t-7714-2015-numeric-bilingual = read("gb-t-7714-2015-numeric-bilingual.csl")
 #let locales-zh-CN = read("locales-zh-CN.xml")
 
+#let simpleparse(bs) = {
+  let ls = str.split(bs, "@").map(str.trim).filter(it => it != "").map(it => "@" + it)
+  // for each element x, first line must be @<type>{<key>,
+  // make a dict with key as key and value as x
+
+  ls.map(x => {
+    let key = str.split(x, "{").at(1).split(",").at(0)
+    (key.trim(), x)
+  })
+}
+
 #let init_citation(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN) = {
   let ctx = ctxjs.new-context(
     load: (
@@ -16,6 +27,23 @@
     ),
   )
   return ctxjs.ctx.call-module-function(ctx, "citext", "citex", (bib.replace("$", "\\$"),))
+}
+
+#let init_citation_sep(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN) = {
+  let ctx = ctxjs.new-context(
+    load: (
+      ctxjs.load.load-module-js("citext", cite-src),
+      ctxjs.load.call-module-function("citext", "initConfig", (gb-t-7714-2015-numeric-bilingual, locales-zh-CN)),
+    ),
+  )
+  let bibs = simpleparse(bib.replace("$", "\\$"))
+  bibs
+    .map(kv => {
+      let k = kv.at(0)
+      let v = kv.at(1)
+      (k, ctxjs.ctx.call-module-function(ctx, "citext", "citeone", (v,)))
+    })
+    .to-dict()
 }
 
 

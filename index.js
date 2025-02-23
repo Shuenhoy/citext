@@ -11,6 +11,28 @@ export function initConfig(template, locales) {
 
 }
 
+export function citeone(bib) {
+    const templateName = "custom1";
+
+    let cite = new Cite(bib);
+    let data = cite.format('data', {
+        format: "object",
+        template: templateName,
+    })
+
+
+    for (let value of data) {
+        return {
+            bibliography: cite.format('bibliography', {
+                template: templateName,
+                entry: value.id,
+            }).trim(),
+            author: value.author,
+            language: value.language || "en-US",
+        }
+    }
+}
+
 export function citex(bib) {
     const templateName = "custom1";
 
