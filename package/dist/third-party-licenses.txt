@@ -1,5 +1,5 @@
 Name: @citation-js/core
-Version: 0.7.14
+Version: 0.7.18
 License: MIT
 Private: false
 Description: Convert different bibliographic metadata sources
@@ -213,7 +213,7 @@ SOFTWARE.
 ---
 
 Name: @citation-js/plugin-csl
-Version: 0.7.14
+Version: 0.7.18
 License: MIT
 Private: false
 Description: Plugin for CSL output for Citation.js
@@ -329,7 +329,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ---
 
 Name: @citation-js/plugin-bibtex
-Version: 0.7.14
+Version: 0.7.18
 License: MIT
 Private: false
 Description: Plugin for BibTeX formats for Citation.js

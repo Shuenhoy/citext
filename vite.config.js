@@ -8,7 +8,8 @@ export default defineConfig({
         drop: ['console', 'debugger'],
     },
     define: {
-        console: {}
+        console: {},
+        process: {}
     },
     plugins: [
         viteSingleFile(),
@@ -32,7 +33,7 @@ export default defineConfig({
             name: 'citext',
             // the proper extensions will be added
             fileName: 'index',
-            formats: ['iife'],
+            formats: ['es']
         },
     },
 });

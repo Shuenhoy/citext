@@ -1,21 +1,16 @@
-#import "@preview/ctxjs:0.3.1"
+#import "@preview/jogs:0.2.3": compile-js, call-js-function, list-global-property
 #import "@preview/mitex:0.2.4": mi
 
 
-#let cite-src = read("./dist/index.min.js")
-
+#let cite-src = read("./dist/index.iife.js")
+#let cite-bytecode = compile-js(cite-src)
 
 #let gb-t-7714-2015-numeric-bilingual = read("gb-t-7714-2015-numeric-bilingual.csl")
+
 #let locales-zh-CN = read("locales-zh-CN.xml")
 
 #let init_citation(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN) = {
-  let ctx = ctxjs.new-context(
-    load: (
-      ctxjs.load.load-module-js("citext", cite-src),
-      ctxjs.load.call-module-function("citext", "initConfig", (gb-t-7714-2015-numeric-bilingual, locales-zh-CN)),
-    ),
-  )
-  return ctxjs.ctx.call-module-function(ctx, "citext", "citex", (bib.replace("$", "\\$"),))
+  return call-js-function(cite-bytecode, "citext", bib.replace("$", "\\$"), csl, locales)
 }
 
 
