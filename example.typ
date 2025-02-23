@@ -1,5 +1,5 @@
 #import "package/lib.typ": *
-#let bib = init_citation_sep(read("test.bib"))
+#let bib = init-citation(read("test.bib"))
 #show: show-extcite.with(bib: bib)
 
 

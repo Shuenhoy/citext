@@ -19,7 +19,7 @@
   })
 }
 
-#let init_citation(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN) = {
+#let init-citation-stable(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN) = {
   let ctx = ctxjs.new-context(
     load: (
       ctxjs.load.load-module-js("citext", cite-src),
@@ -29,7 +29,7 @@
   return ctxjs.ctx.call-module-function(ctx, "citext", "citex", (bib.replace("$", "\\$"),))
 }
 
-#let init_citation_sep(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN) = {
+#let init-citation(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN) = {
   let ctx = ctxjs.new-context(
     load: (
       ctxjs.load.load-module-js("citext", cite-src),
