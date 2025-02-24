@@ -1,22 +1,67 @@
-#import "@preview/jogs:0.2.3": compile-js, call-js-function, list-global-property
+#import "@preview/ctxjs:0.3.1"
 #import "@preview/mitex:0.2.4": mi
 
 
-#let cite-src = read("./dist/index.iife.js")
-#let cite-bytecode = compile-js(cite-src)
+#let cite-src = read("./dist/index.min.js")
+
 
 #let gb-t-7714-2015-numeric-bilingual = read("gb-t-7714-2015-numeric-bilingual.csl")
-
 #let locales-zh-CN = read("locales-zh-CN.xml")
 
-#let init_citation(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN) = {
-  return call-js-function(cite-bytecode, "citext", bib.replace("$", "\\$"), csl, locales)
+#let simple-split(bs) = {
+  str.split("\n" + bs, "\n@").map(str.trim).filter(it => it != "").map(it => "@" + it)
+  // for each element x, first line must be @<type>{<key>,
+  // make a dict with key as key and value as x
+}
+
+#let init-citation(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN, mode: "lazy") = {
+  let ctx = ctxjs.new-context(
+    load: (
+      ctxjs.load.load-module-js("citext", cite-src),
+      ctxjs.load.call-module-function("citext", "initConfig", (gb-t-7714-2015-numeric-bilingual, locales-zh-CN)),
+    ),
+  )
+
+  if mode == "stable" {
+    let cites = ctxjs.ctx.call-module-function(ctx, "citext", "citex", (bib.replace("$", "\\$"),))
+
+    (
+      get: id => cites.at(id),
+    )
+  } else {
+    let bibs = simple-split(bib.replace("$", "\\$"))
+
+    if mode == "lazy" {
+      let bibs = bibs
+        .map(x => {
+          let key = str.split(x, "{").at(1).split(",").at(0)
+          (key.trim(), x)
+        })
+        .to-dict()
+
+      (
+        get: id => {
+          let v = bibs.at(id)
+          ctxjs.ctx.call-module-function(ctx, "citext", "citeone", (v,)).at(1)
+        },
+      )
+    } else if mode == "eager" {
+      let cites = bibs
+        .map(v => {
+          ctxjs.ctx.call-module-function(ctx, "citext", "citeone", (v,))
+        })
+        .to-dict()
+      (
+        get: id => cites.at(id),
+      )
+    }
+  }
 }
 
 
 #let extcitefull(bib, id) = {
   show regex("\$.+?\$"): it => mi(it)
-  bib.at(id).at("bibliography")
+  (bib.get)(id).at("bibliography")
 }
 #let citeauthor-one-two-more(authors, ETAL: none, AND: none) = {
   let len = authors.len()
@@ -39,9 +84,8 @@
     zh-CN: zh-CN-citeauthor,
   ),
 ) = {
-  let entry = bib.at(id)
+  let entry = (bib.get)(id)
   mapping.at(entry.at("language"), default: mapping.en-US)(entry.at("author"))
-
 }
 
 #let cite-targets = state("cite-targets", ())
@@ -96,19 +140,20 @@
 
 
 #let extbib(bib) = {
-  locate(loc => {
-    grid(columns: 2,
+  context {
+    grid(
+      columns: 2,
       column-gutter: 0.65em,
       row-gutter: 1.2em,
       ..cite-targets
-        .at(loc)
+        .at(here())
         .enumerate()
         .map(x => {
-            let i = x.at(0) + 1
-            let target = x.at(1)
-            ([\[#i\]], extcitefull(bib, str(target)))
-          })
+          let i = x.at(0) + 1
+          let target = x.at(1)
+          ([\[#i\]], extcitefull(bib, str(target)))
+        })
         .flatten()
     )
-  })
+  }
 }
