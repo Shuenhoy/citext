@@ -46,6 +46,6 @@ e.g. `init-citation(read("test.bib"), mode: "eager")`.
 * `"eager"`: all citations in your BibTeX will be processed at once in individual. 
 * `"stable"`: all citations in your BibTeX will be processed at once as a whole. 
 
-Both `"lazy"` and `"eager"` will benefit from the incremental compilation capability of Typst, and run in multi thread. You may need to try out which is faster for your document. To use `"lazy"` or `"eager"` mode, your BibTeX must be formatted such that there must be no space before the `@` of each item `@article{`, so that the items can be split.
+Both `"lazy"` and `"eager"` will benefit from the incremental compilation capability of Typst, and run in multi thread. You may need to try out which is faster for your document. **To use `"lazy"` or `"eager"` mode, your BibTeX must be formatted such that there must be no space before the `@` of each item `@article{`, so that the items can be split.**
 
 If you still meet any issue, you could try the `"stable"` mode, which does not depend on the heuristic splitting. However, it cannot perform incremental compilation, and can be very slow.
