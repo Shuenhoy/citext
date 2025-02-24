@@ -22,14 +22,14 @@ export function citeone(bib) {
 
 
     for (let value of data) {
-        return {
+        return [value.id, {
             bibliography: cite.format('bibliography', {
                 template: templateName,
                 entry: value.id,
             }).trim(),
             author: value.author,
             language: value.language || "en-US",
-        }
+        }]
     }
 }
 
