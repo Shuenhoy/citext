@@ -10,6 +10,12 @@ It calls `citation.js` from QuickJS and WebAssembly using https://github.com/lub
 
 It is designed for `gb-t-7714-2015-numeric-bilingual.csl` but may work for other CSL styles with `numeric` category.
 
+## Install
+This package is experimental, please install it manually (https://github.com/typst/packages?tab=readme-ov-file#local-packages). You may also use https://github.com/Thumuss/utpm/ to install: `cd package && utpm ws link`.
+
+
+
+## Example
 ```typst
 #import "package/lib.typ": *
 #let bib = init-citation(read("test.bib"))
