@@ -89,7 +89,14 @@
 }
 
 #let cite-targets = state("cite-targets", ())
-#let show-extcite(s, bib: (:)) = {
+#let new-citext-session() = {
+  cite-targets.update(())
+}
+
+#let get-ref-id(key, loc) = {
+  str(cite-targets.at(loc).position(x => x == key) + 1)
+}
+#let show-extcite(s, bib: (:), gen-id: false) = {
   show ref: it => {
     if it.element != none {
       // Citing a document element like a figure, not a bib key
@@ -103,8 +110,13 @@
       }
       old
     })
-
-    it
+    if gen-id {
+      context {
+        super("[" + get-ref-id(it.target, here()) + "]")
+      }
+    } else {
+      it
+    }
   }
 
   show cite: it => {
@@ -115,7 +127,13 @@
       old
     })
 
-    it
+    if gen-id {
+      context {
+        super("[" + get-ref-id(it.key, here()) + "]")
+      }
+    } else {
+      it
+    }
   }
 
   show ref.where(label: <citeauthor>): it => {

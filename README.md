@@ -55,3 +55,17 @@ e.g. `init-citation(read("test.bib"), mode: "eager")`.
 Both `"lazy"` and `"eager"` will benefit from the incremental compilation capability of Typst, and run in multi thread. You may need to try out which is faster for your document. **To use `"lazy"` or `"eager"` mode, your BibTeX must be formatted such that there must be no space before the `@` of each item `@article{`, so that the items can be split.**
 
 If you still meet any issue, you could try the `"stable"` mode, which does not depend on the heuristic splitting. However, it cannot perform incremental compilation, and can be very slow.
+
+## Multiple bibliography
+`citext` supports multiple bibliography, you can use
+
+```typst
+#new-citext-session()
+```
+
+to start a new session.
+
+You need to set `gen-id: true` if the style is numeric:
+```typst
+#show: show-extcite.with(bib: bib, gen-id: true)
+```
