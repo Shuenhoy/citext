@@ -8,7 +8,7 @@
 @zjugradthesisrules
 @latex2e
 
-@zjugradthesisrules<citeauthor>
+@zjugradthesisrules<citea>
 
 @zjugradthesisrules<citep>
 
@@ -26,11 +26,20 @@
 
 #new-citext-session()
 
-@zjugradthesisrules<citeauthor>
 
 @zjugradthesisrules
 
 @lesk:1977<citet>
+
+#cite(<latex:companion>, form: "prose")
+
+#cite(<zjugradthesisrules>, form: "full")
+
+`<citey>` 与 `<citea>` 不会在后面的参考文献列表中添加条目：
+
+@texbook<citey>
+@latex2e<citea>
+
 
 = 参考文献
 #extbib(bib)
