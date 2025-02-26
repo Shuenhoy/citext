@@ -41,7 +41,7 @@
 
       (
         get: id => {
-          let v = bibs.at(id)
+          let v = bibs.at(str(id))
           ctxjs.ctx.call-module-function(ctx, "citext", "citeone", (v,)).at(1)
         },
       )
@@ -52,7 +52,7 @@
         })
         .to-dict()
       (
-        get: id => cites.at(id),
+        get: id => cites.at(str(id)),
       )
     }
   }
@@ -96,7 +96,27 @@
 #let get-ref-id(key, loc) = {
   str(cite-targets.at(loc).position(x => x == key) + 1)
 }
+
+
 #let show-extcite(s, bib: (:), gen-id: false) = {
+  let updatecite(key) = {
+    cite-targets.update(old => {
+      if key not in old {
+        old.push(key)
+      }
+      old
+    })
+  }
+  let numeric-cite(key) = {
+    updatecite(key)
+    if gen-id {
+      context {
+        super("[" + get-ref-id(key, here()) + "]")
+      }
+    } else {
+      it
+    }
+  }
   show ref: it => {
     if it.element != none {
       // Citing a document element like a figure, not a bib key
@@ -104,44 +124,30 @@
       it
       return
     }
-    cite-targets.update(old => {
-      if it.target not in old {
-        old.push(it.target)
-      }
-      old
-    })
-    if gen-id {
-      context {
-        super("[" + get-ref-id(it.target, here()) + "]")
-      }
-    } else {
-      it
-    }
+    numeric-cite(it.target)
   }
 
-  show cite: it => {
-    cite-targets.update(old => {
-      if it.key not in old {
-        old.push(it.key)
-      }
-      old
-    })
-
-    if gen-id {
-      context {
-        super("[" + get-ref-id(it.key, here()) + "]")
-      }
-    } else {
-      it
-    }
+  show cite.where(form: "normal"): it => {
+    numeric-cite(it.key)
   }
 
-  show ref.where(label: <citeauthor>): it => {
+  show ref.where(label: <citea>): it => {
     extciteauthor(bib, str(it.target))
+  }
+  show cite.where(form: "author"): it => {
+    extciteauthor(bib, str(it.key))
+  }
+
+  show ref.where(label: <citey>): it => {
+    cite(it.target, form: "year")
   }
 
   show ref.where(label: <citep>): it => {
     [#extciteauthor(bib, str(it.target)) #cite(it.target)]
+  }
+
+  show cite.where(form: "prose"): it => {
+    [#extciteauthor(bib, str(it.key)) #cite(it.key)]
   }
 
   show ref.where(label: <citet>): it => {
@@ -151,6 +157,10 @@
 
   show ref.where(label: <citef>): it => {
     [#footnote[#extcitefull(bib, str(it.target))]]
+  }
+
+  show cite.where(form: "full"): it => {
+    extcitefull(bib, str(it.key))
   }
   s
 }
