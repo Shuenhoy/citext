@@ -2,7 +2,7 @@
 #import "@preview/mitex:0.2.4": mi
 
 
-#let cite-src = read("./dist/index.min.js")
+#let cite-src = read("./dist/index.bin", encoding: none)
 
 
 #let gb-t-7714-2015-numeric-bilingual = read("gb-t-7714-2015-numeric-bilingual.csl")
@@ -17,7 +17,7 @@
 #let init-citation(bib, csl: gb-t-7714-2015-numeric-bilingual, locales: locales-zh-CN, mode: "lazy") = {
   let ctx = ctxjs.new-context(
     load: (
-      ctxjs.load.load-module-js("citext", cite-src),
+      ctxjs.load.load-module-bytecode(cite-src),
       ctxjs.load.call-module-function("citext", "initConfig", (gb-t-7714-2015-numeric-bilingual, locales-zh-CN)),
     ),
   )
