@@ -27,7 +27,7 @@ This package is experimental, please install it manually (https://github.com/typ
 @zjugradthesisrules
 @latex2e
 
-@zjugradthesisrules<citeauthor>
+@zjugradthesisrules<citea>
 
 @zjugradthesisrules<citep>
 
