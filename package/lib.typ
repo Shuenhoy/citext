@@ -185,3 +185,64 @@
     )
   }
 }
+
+#let mulcite(..keys) = {
+  for key in keys.pos() {
+    cite-targets.update(old => {
+      if key not in old {
+        old.push(key)
+      }
+      old
+    })
+  }
+
+  context {
+    let loc = here()
+
+    let ref-ids = keys.pos()
+      .map(key => int(get-ref-id(key, loc)))
+
+    let unique-ids = ()
+    if ref-ids.len() > 0 {
+      let sorted-ids = ref-ids.sorted()
+      unique-ids.push(sorted-ids.at(0))
+      for i in range(1, sorted-ids.len()) {
+        if sorted-ids.at(i) != sorted-ids.at(i - 1) {
+          unique-ids.push(sorted-ids.at(i))
+        }
+      }
+    }
+
+    if unique-ids.len() == 0 {
+      return "[]"
+    }
+
+    let groups = ()
+    let current-group = ()
+
+    current-group.push(unique-ids.at(0))
+
+    for i in range(1, unique-ids.len()) {
+      let current-id = unique-ids.at(i)
+      let last-id = current-group.last()
+
+      if current-id == last-id + 1 {
+        current-group.push(current-id)
+      } else {
+        groups.push(current-group)
+        current-group = (current-id,)
+      }
+    }
+    groups.push(current-group)
+
+    let formatted-groups = groups.map(group => {
+      if group.len() > 2 {
+        str(group.first()) + "-" + str(group.last())
+      } else {
+        group.map(str).join(", ")
+      }
+    })
+
+    super("[" + formatted-groups.join(", ") + "]")
+  }
+}

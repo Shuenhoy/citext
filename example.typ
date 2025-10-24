@@ -16,6 +16,12 @@
 
 @latex:companion<citep>
 
+// remove duplicate citations
+#mulcite(<texbook>, <zjugradthesisrules>, <latex2e>, <zjugradthesisrules>)
+
+// sorted citations, grouped contiguously citations
+#mulcite(<latex:companion>, <texbook>, <zjugradthesisrules>, <latex2e>)
+
 #show bibliography: none
 
 #bibliography("test.bib", style: "gb-7714-2015-numeric")
