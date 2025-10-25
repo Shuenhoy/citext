@@ -143,16 +143,16 @@
   }
 
   show ref.where(label: <citep>): it => {
-    [#extciteauthor(bib, str(it.target)) #cite(it.target)]
+    [#extciteauthor(bib, str(it.target))#cite(it.target)]
   }
 
   show cite.where(form: "prose"): it => {
-    [#extciteauthor(bib, str(it.key)) #cite(it.key)]
+    [#extciteauthor(bib, str(it.key))#cite(it.key)]
   }
 
   show ref.where(label: <citet>): it => {
     show super: it => it.body
-    [#extciteauthor(bib, str(it.target)) #cite(it.target)]
+    [#extciteauthor(bib, str(it.target))#cite(it.target)]
   }
 
   show ref.where(label: <citef>): it => {
@@ -199,8 +199,7 @@
   context {
     let loc = here()
 
-    let ref-ids = keys.pos()
-      .map(key => int(get-ref-id(key, loc)))
+    let ref-ids = keys.pos().map(key => int(get-ref-id(key, loc)))
 
     let unique-ids = ()
     if ref-ids.len() > 0 {
@@ -239,10 +238,10 @@
       if group.len() > 2 {
         str(group.first()) + "-" + str(group.last())
       } else {
-        group.map(str).join(", ")
+        group.map(str).join(",")
       }
     })
 
-    super("[" + formatted-groups.join(", ") + "]")
+    super("[" + formatted-groups.join(",") + "]")
   }
 }
