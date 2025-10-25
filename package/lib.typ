@@ -167,12 +167,12 @@
 
 
 
-#let extbib(bib) = {
+#let extbib(bib, column-gutter: 0.65em, row-gutter: 1.2em) = {
   context {
     grid(
       columns: 2,
-      column-gutter: 0.65em,
-      row-gutter: 1.2em,
+      column-gutter: column-gutter,
+      row-gutter: row-gutter,
       ..cite-targets
         .at(here())
         .enumerate()
