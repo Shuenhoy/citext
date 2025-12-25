@@ -1,4 +1,4 @@
-#import "@local/citext:0.2.0": *
+#import "@local/citext:0.3.0": *
 
 #let bib = init-citation(read("test.bib"))
 #show: show-extcite.with(bib: bib, gen-id: true)
