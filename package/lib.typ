@@ -1,4 +1,4 @@
-#import "@preview/ctxjs:0.3.1"
+#import "@preview/ctxjs:0.3.2"
 #import "@preview/mitex:0.2.4": mi
 
 
@@ -18,7 +18,7 @@
   let ctx = ctxjs.new-context(
     load: (
       ctxjs.load.load-module-bytecode(cite-src),
-      ctxjs.load.call-module-function("citext", "initConfig", (gb-t-7714-2015-numeric-bilingual, locales-zh-CN)),
+      ctxjs.load.call-module-function("citext", "initConfig", (csl, locales-zh-CN)),
     ),
   )
 
