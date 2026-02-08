@@ -60,8 +60,11 @@
 
 
 #let extcitefull(bib, id) = {
+  let entry = (bib.get)(id)
   show regex("\$.+?\$"): it => mi(it)
-  (bib.get)(id).at("bibliography")
+  let lang = entry.at("language")
+  set text(lang: lang.slice(0, 2)) // use "en" or "zh"
+  entry.at("bibliography")
 }
 #let citeauthor-one-two-more(authors, ETAL: none, AND: none) = {
   let len = authors.len()
