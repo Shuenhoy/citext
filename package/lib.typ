@@ -165,6 +165,11 @@
     [#extciteauthor(bib, str(it.target))#cite(it.target)]
   }
 
+  show ref.where(label: <citei>): it => {
+    show super: it => it.body
+    [#cite(it.target)]
+  }
+
   show ref.where(label: <citef>): it => {
     [#footnote[#extcitefull(bib, str(it.target))]]
   }
@@ -196,7 +201,7 @@
   }
 }
 
-#let mulcite(..keys) = {
+#let mulcite-impl(..keys) = {
   for key in keys.pos() {
     cite-targets.update(old => {
       if key not in old {
@@ -253,6 +258,9 @@
       }
     })
 
-    super("[" + formatted-groups.join(",") + "]")
+    "[" + formatted-groups.join(",") + "]"
   }
 }
+#let mulcite(..keys) = super(mulcite-impl(..keys))
+#let mulcitep(..keys) = [文献~#super(mulcite-impl(..keys))]
+#let mulcitet(..keys) = [文献~#mulcite-impl(..keys)]
