@@ -35,11 +35,16 @@ This package is experimental, please install it manually (https://github.com/typ
 
 @latex:companion<citef>
 
-// remove duplicate citations
+// remove duplicate citations, there are also `mulcitep` and `mulcitet`
+#mulcite[@texbook @zjugradthesisrules @latex2e @zjugradthesisrules]
+
+// legacy `mulcite` interface, for compatibility only.
 #mulcite(<texbook>, <zjugradthesisrules>, <latex2e>, <zjugradthesisrules>)
 
+
 // sorted citations, grouped contiguously citations
-#mulcite(<latex:companion>, <texbook>, <zjugradthesisrules>, <latex2e>)
+#mulcite[@latex:companion @texbook @zjugradthesisrules @latex2e]
+
 
 // #show bibliography: none
 

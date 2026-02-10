@@ -1,4 +1,4 @@
-#import "@local/citext:0.3.0": *
+#import "./package/lib.typ": *
 
 #let bib = init-citation(read("test.bib"))
 #show: show-extcite.with(bib: bib, gen-id: true)
@@ -17,10 +17,13 @@
 @latex:companion<citep>
 
 // remove duplicate citations
+#mulcite[@texbook @zjugradthesisrules @latex2e @zjugradthesisrules]
+
+// legacy `mulcite` interface, for compatibility only.
 #mulcite(<texbook>, <zjugradthesisrules>, <latex2e>, <zjugradthesisrules>)
 
 // sorted citations, grouped contiguously citations
-#mulcite(<latex:companion>, <texbook>, <zjugradthesisrules>, <latex2e>)
+#mulcite[@latex:companion @texbook @zjugradthesisrules @latex2e]
 
 #show bibliography: none
 
